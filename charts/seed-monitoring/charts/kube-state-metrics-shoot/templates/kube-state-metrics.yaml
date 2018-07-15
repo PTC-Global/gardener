@@ -51,7 +51,9 @@ spec:
         - /kube-state-metrics
         - --port=8080
         - --kubeconfig=/etc/kube-state-metrics/config/kubeconfig
+        {{- if eq .Values.allnamespaces true }}
         - --namespace=kube-system
+        {{- end}}
         - --collectors=cronjobs,daemonsets,deployments,jobs,limitranges,nodes,pods,replicasets,replicationcontrollers,resourcequotas,services,statefulsets
         volumeMounts:
         - name: kubeconfig

@@ -291,12 +291,14 @@ func (b *Botanist) DeploySeedMonitoring() error {
 				"region":    b.Seed.Info.Spec.Cloud.Region,
 				"profile":   b.Seed.Info.Spec.Cloud.Profile,
 			},
+			"allnamespaces": b.Shoot.MonitorAllNamespaces(),
 		}
 		kubeStateMetricsSeedConfig = map[string]interface{}{
 			"replicas": replicas,
 		}
 		kubeStateMetricsShootConfig = map[string]interface{}{
-			"replicas": replicas,
+			"replicas":      replicas,
+			"allnamespaces": b.Shoot.MonitorAllNamespaces(),
 		}
 	)
 

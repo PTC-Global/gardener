@@ -262,6 +262,11 @@ func (s *Shoot) MonocularEnabled() bool {
 	return s.Info.Spec.Addons != nil && s.Info.Spec.Addons.Monocular != nil && s.Info.Spec.Addons.Monocular.Enabled
 }
 
+// MonitorAllNamespaces returns true if the only_kubesytem value is enabled in the Shoot manifest.
+func (s *Shoot) MonitorAllNamespaces() bool {
+	return s.Info.Spec.Addons != nil && s.Info.Spec.Addons.MonitorAllNamespaces != nil && s.Info.Spec.Addons.MonitorAllNamespaces.Enabled
+}
+
 // ComputeCloudConfigSecretName computes the name for a secret which contains the original cloud config for
 // the worker group with the given <workerName>. It is build by the cloud config secret prefix, the worker
 // name itself and a hash of the minor Kubernetes version of the Shoot cluster.

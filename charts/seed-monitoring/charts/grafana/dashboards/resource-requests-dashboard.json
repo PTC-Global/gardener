@@ -50,7 +50,7 @@
               "step": 30
             },
             {
-              "expr": "max(sum(kube_pod_container_resource_requests_cpu_cores) by (instance))",
+              "expr": "max(sum(kube_pod_container_resource_requests_cpu_cores{type=\"shoot\"}) by (instance))",
               "intervalFactor": 2,
               "legendFormat": "Requested CPU Cores",
               "refId": "B",
@@ -143,7 +143,7 @@
             "show": true
           },
           "targets": [{
-            "expr": "max(sum(kube_pod_container_resource_requests_cpu_cores) by (instance)) / min(sum(kube_node_status_allocatable_cpu_cores) by (instance)) * 100",
+            "expr": "max(sum(kube_pod_container_resource_requests_cpu_cores{type=\"shoot\"}) by (instance)) / min(sum(kube_node_status_allocatable_cpu_cores) by (instance)) * 100",
             "intervalFactor": 2,
             "legendFormat": "",
             "refId": "A",
@@ -208,7 +208,7 @@
               "step": 30
             },
             {
-              "expr": "max(sum(kube_pod_container_resource_requests_memory_bytes) by (instance))",
+              "expr": "max(sum(kube_pod_container_resource_requests_memory_bytes{type=\"shoot\"}) by (instance))",
               "intervalFactor": 2,
               "legendFormat": "Requested Memory",
               "refId": "B",
@@ -301,7 +301,7 @@
             "show": true
           },
           "targets": [{
-            "expr": "max(sum(kube_pod_container_resource_requests_memory_bytes) by (instance)) / min(sum(kube_node_status_allocatable_memory_bytes) by (instance)) * 100",
+            "expr": "max(sum(kube_pod_container_resource_requests_memory_bytes{type=\"shoot\"}) by (instance)) / min(sum(kube_node_status_allocatable_memory_bytes) by (instance)) * 100",
             "intervalFactor": 2,
             "legendFormat": "",
             "refId": "A",

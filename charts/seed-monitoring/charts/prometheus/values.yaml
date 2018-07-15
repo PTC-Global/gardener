@@ -28,3 +28,5 @@ seed:
   apiserver: https://api.foo.bar
   region: antarctica-1
   profile: penguin
+
+allnamespaces: true

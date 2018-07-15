@@ -17,6 +17,7 @@ prometheus:
     prometheus: image-repository:image-tag
     configmap-reloader: image-repository:image-tag
     vpn-seed: image-repository:image-tag
+  allnamespaces: true
 grafana:
   replicas: 1
   images:
@@ -30,6 +31,7 @@ kube-state-metrics-shoot:
   replicas: 1
   images:
     kube-state-metrics: image-repository:image-tag
+  allnamespaces: true
 global:
   shootKubeVersion:
     gitVersion: v1.7.5

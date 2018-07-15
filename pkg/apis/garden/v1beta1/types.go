@@ -839,6 +839,9 @@ type Addons struct {
 	// Monocular holds configuration settings for the monocular addon.
 	// +optional
 	Monocular *Monocular `json:"monocular,omitempty"`
+	// MonitorAllNamespaces holds configuration settings for the kubernetes dashboard addon.
+	// +optional
+	MonitorAllNamespaces *MonitorAllNamespaces `json:"monitor-allnamespaces,omitempty"`
 }
 
 // Addon also enabling or disabling a specific addon and is used to derive from.
@@ -874,6 +877,11 @@ type NginxIngress struct {
 
 // Monocular describes configuration values for the monocular addon.
 type Monocular struct {
+	Addon `json:",inline"`
+}
+
+// MonitorAllNamespaces describes configuration values for the MonitorAllNamespaces addon.
+type MonitorAllNamespaces struct {
 	Addon `json:",inline"`
 }
 

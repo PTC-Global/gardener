@@ -860,6 +860,9 @@ type Addons struct {
 	// Monocular holds configuration settings for the monocular addon.
 	// +optional
 	Monocular *Monocular
+	// MonitorAllNamespaces holds configuration settings for the monocular addon.
+	// +optional
+	MonitorAllNamespaces *MonitorAllNamespaces
 }
 
 // Addon also enabling or disabling a specific addon and is used to derive from.
@@ -895,6 +898,11 @@ type NginxIngress struct {
 
 // Monocular describes configuration values for the monocular addon.
 type Monocular struct {
+	Addon
+}
+
+// MonitorAllNamespaces describes configuration values for the MonitorAllNamespaces addon.
+type MonitorAllNamespaces struct {
 	Addon
 }
 
