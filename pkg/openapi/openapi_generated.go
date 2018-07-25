@@ -97,6 +97,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.Maintenance":                   schema_pkg_apis_garden_v1beta1_Maintenance(ref),
 		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.MaintenanceAutoUpdate":         schema_pkg_apis_garden_v1beta1_MaintenanceAutoUpdate(ref),
 		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.MaintenanceTimeWindow":         schema_pkg_apis_garden_v1beta1_MaintenanceTimeWindow(ref),
+		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.MonitorAllNamespaces":          schema_pkg_apis_garden_v1beta1_MonitorAllNamespaces(ref),
 		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.Monocular":                     schema_pkg_apis_garden_v1beta1_Monocular(ref),
 		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.NginxIngress":                  schema_pkg_apis_garden_v1beta1_NginxIngress(ref),
 		"github.com/gardener/gardener/pkg/apis/garden/v1beta1.OIDCConfig":                    schema_pkg_apis_garden_v1beta1_OIDCConfig(ref),
@@ -853,11 +854,17 @@ func schema_pkg_apis_garden_v1beta1_Addons(ref common.ReferenceCallback) common.
 							Ref:         ref("github.com/gardener/gardener/pkg/apis/garden/v1beta1.Monocular"),
 						},
 					},
+					"monitor-allnamespaces": {
+						SchemaProps: spec.SchemaProps{
+							Description: "MonitorAllNamespaces holds configuration settings for the kubernetes dashboard addon.",
+							Ref:         ref("github.com/gardener/gardener/pkg/apis/garden/v1beta1.MonitorAllNamespaces"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/gardener/gardener/pkg/apis/garden/v1beta1.ClusterAutoscaler", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.Heapster", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.Kube2IAM", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.KubeLego", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.KubernetesDashboard", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.Monocular", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.NginxIngress"},
+			"github.com/gardener/gardener/pkg/apis/garden/v1beta1.ClusterAutoscaler", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.Heapster", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.Kube2IAM", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.KubeLego", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.KubernetesDashboard", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.MonitorAllNamespaces", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.Monocular", "github.com/gardener/gardener/pkg/apis/garden/v1beta1.NginxIngress"},
 	}
 }
 
@@ -2936,6 +2943,27 @@ func schema_pkg_apis_garden_v1beta1_MaintenanceTimeWindow(ref common.ReferenceCa
 	}
 }
 
+func schema_pkg_apis_garden_v1beta1_MonitorAllNamespaces(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "MonitorAllNamespaces describes configuration values for the MonitorAllNamespaces addon.",
+				Properties: map[string]spec.Schema{
+					"enabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Enabled indicates whether the addon is enabled or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"enabled"},
+			},
+		},
+		Dependencies: []string{},
+	}
+}
+
 func schema_pkg_apis_garden_v1beta1_Monocular(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -3794,6 +3822,11 @@ func schema_pkg_apis_garden_v1beta1_Seed(ref common.ReferenceCallback) common.Op
 							Ref:         ref("github.com/gardener/gardener/pkg/apis/garden/v1beta1.SeedStatus"),
 						},
 					},
+				},
+			},
+			VendorExtensible: spec.VendorExtensible{
+				Extensions: spec.Extensions{
+					"x-kubernetes-print-columns": "custom-columns=NAME:.metadata.name,DOMAIN:.spec.ingressDomain,CLOUDPROFILE:.spec.cloud.profile,REGION:.spec.cloud.profile,READY:.status.conditions[?(@.type == 'Available')].status",
 				},
 			},
 		},
