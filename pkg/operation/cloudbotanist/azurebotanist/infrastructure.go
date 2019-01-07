@@ -62,7 +62,7 @@ func (b *AzureBotanist) DeployInfrastructure() error {
 	}
 	return tf.
 		SetVariablesEnvironment(b.generateTerraformInfraVariablesEnvironment()).
-		DefineConfig("azure-infra", b.generateTerraformInfraConfig(createResourceGroup, createVNet, resourceGroupName, vnetName, vnetCIDR, countUpdateDomains, countFaultDomains)).
+		DefineConfig("azure-infra", b.generateTerraformInfraConfig(createResourceGroup, createVNet, resourceGroupName, vnetName, vnetCIDR, countUpdateDomains, countFaultDomains, common.CleanLabels(b.Shoot.Info.Labels))).
 		Apply()
 }
 
@@ -89,7 +89,7 @@ func (b *AzureBotanist) generateTerraformInfraVariablesEnvironment() []map[strin
 
 // generateTerraformInfraConfig creates the Terraform variables and the Terraform config (for the infrastructure)
 // and returns them (these values will be stored as a ConfigMap and a Secret in the Garden cluster.
-func (b *AzureBotanist) generateTerraformInfraConfig(createResourceGroup, createVNet bool, resourceGroupName, vnetName string, vnetCIDR gardenv1beta1.CIDR, countUpdateDomains, countFaultDomains gardenv1beta1.AzureDomainCount) map[string]interface{} {
+func (b *AzureBotanist) generateTerraformInfraConfig(createResourceGroup, createVNet bool, resourceGroupName, vnetName string, vnetCIDR gardenv1beta1.CIDR, countUpdateDomains, countFaultDomains gardenv1beta1.AzureDomainCount, labels map[string]string) map[string]interface{} {
 	return map[string]interface{}{
 		"azure": map[string]interface{}{
 			"subscriptionID":     string(b.Shoot.Secret.Data[SubscriptionID]),
@@ -113,6 +113,7 @@ func (b *AzureBotanist) generateTerraformInfraConfig(createResourceGroup, create
 		"networks": map[string]interface{}{
 			"worker": b.Shoot.Info.Spec.Cloud.Azure.Networks.Workers,
 		},
+		"labels": labels,
 	}
 }
 

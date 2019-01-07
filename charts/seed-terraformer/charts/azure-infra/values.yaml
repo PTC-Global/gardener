@@ -26,3 +26,5 @@ initializeEmptyState: true
 
 networks:
   worker: 10.250.0.0/19
+
+labels: {}

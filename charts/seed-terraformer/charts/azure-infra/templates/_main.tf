@@ -10,6 +10,13 @@ provider "azurerm" {
 resource "azurerm_resource_group" "rg" {
   name     = "{{ required "resourceGroup.name is required" .Values.resourceGroup.name }}"
   location = "{{ required "azure.region is required" .Values.azure.region }}"
+{{- if .Values.labels }}
+  tags {
+{{- range $key, $val := .Values.labels}}
+    {{ $key }} = {{ $val | quote }}
+{{- end}}
+  }
+{{- end}}
 }
 {{- end}}
 
